@@ -125,28 +125,26 @@ def add_task(args):
     console.print("[green]Task added[/green]")
 
 
+def list_tasks(args):
 
+    data = load_data()
 
-parse = argparse.ArgumentParser(
-    description="Project Management CLI"
-)
+    table = Table(title="Tasks")
 
-subparsers = parse.add_subparsers(dest="command")
+    table.add_column("ID")
+    table.add_column("Project")
+    table.add_column("Title")
+    table.add_column("Assigned To")
+    table.add_column("Status")
 
+    for task in data["tasks"]:
+        table.add_row(
+            str(task["id"]),
+            str(task["project_id"]),
+            task["title"],
+            task["assigned_to"],
+            task["status"]
+        )
 
-add_user = subparsers.add_parser("add_user")
+    console.print(table)
 
-add_user.add_argument("--name", required=True)
-add_user.add_argument("--email", required=True)
-
-
-add_project = subparsers.add_parser("add_project")
-
-add_project.add_argument("--user", required=True)
-add_project.add_argument("--title", required=True)
-
-
-add_task = subparsers.add_parser("add_task")
-
-add_task.add_argument("--project", required=True)
-add_task.add_argument("--title", required=True)
