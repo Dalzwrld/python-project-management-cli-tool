@@ -21,6 +21,25 @@ def add_user(args):
 
     console.print("[green]User added successfully[/green]")
 
+def list_users(args):
+
+    data = load_data()
+
+    table = Table(title="Users")
+
+    table.add_column("ID")
+    table.add_column("Name")
+    table.add_column("Email")
+
+    for user in data["users"]:
+        table.add_row(
+            str(user["id"]),
+            user["name"],
+            user["email"]
+        )
+
+    console.print(table)
+
 parse = argparse.ArgumentParser(
     description="Project Management CLI"
 )
