@@ -68,6 +68,37 @@ def add_project(args):
 
     console.print("[green]Project added[/green]")
 
+
+def list_projects(args):
+
+    data = load_data()
+
+    table = Table(title="Projects")
+
+    table.add_column("ID")
+    table.add_column("Owner ID")
+    table.add_column("Title")
+    table.add_column("Due Date")
+
+    projects = data["projects"]
+
+    if args.user_id:
+        projects = [
+            p for p in projects
+            if p["owner_id"] == args.user_id
+        ]
+
+    for project in projects:
+        table.add_row(
+            str(project["id"]),
+            str(project["owner_id"]),
+            project["title"],
+            project["due_date"]
+        )
+
+    console.print(table)
+
+
 parse = argparse.ArgumentParser(
     description="Project Management CLI"
 )
