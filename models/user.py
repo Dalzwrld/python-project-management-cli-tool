@@ -2,14 +2,35 @@ from .person import Person
 import re
 
 class User(Person):
+    all_users = []
+
     id_counter = 1
-    def __init__(self, name, email):
+    def __init__(self, name, email, user_id=None):
         super().__init__(name, email)
 
-        self.id = User.id_counter
-        User.id_counter += 1
+        if user_id is None:
+            self.id = User.id_counter
+            User.id_counter += 1
+        else:
+            self.id = user_id
+            User.id_counter += 1
 
         self.projects = []
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            data["name"],
+            data["email"],
+            data["id"]
+        )
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email
+        }
     
     @property
     def email(self):
@@ -28,4 +49,4 @@ class User(Person):
         self.projects.append(project)
 
     def __str__(self):
-        return f"{self.name} ({self.email})"
+        return f"{self.id}: {self.name} ({self.email})"
