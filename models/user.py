@@ -1,4 +1,5 @@
-from person import Person
+from .person import Person
+import re
 
 class User(Person):
     id_counter = 1
@@ -9,6 +10,19 @@ class User(Person):
         User.id_counter += 1
 
         self.projects = []
+    
+    @property
+    def email(self):
+        return self._email
+    
+    @email.setter
+    def email(self, value):
+        email_pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+
+        if not re.match(email_pattern, value):
+            raise ValueError("Invalid email format.")
+        
+        self._email = value
 
     def add_project(self, project):
         self.projects.append(project)
