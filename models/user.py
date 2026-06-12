@@ -2,6 +2,8 @@ from .person import Person
 import re
 
 class User(Person):
+    all_users = []
+
     id_counter = 1
     def __init__(self, name, email):
         super().__init__(name, email)
@@ -10,6 +12,10 @@ class User(Person):
         User.id_counter += 1
 
         self.projects = []
+
+    @classmethod
+    def get_all_users(cls):
+        return cls.all_users
     
     @property
     def email(self):
