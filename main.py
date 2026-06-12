@@ -196,7 +196,6 @@ def main():
 
 
     add_project_parser = subparsers.add_parser("add-project")
-
     add_project_parser.add_argument("--user-id", type=int, required=True)
     add_project_parser.add_argument("--title", required=True)
     add_project_parser.add_argument("--description", required=True)
@@ -206,6 +205,7 @@ def main():
     list_projects_parser = subparsers.add_parser("list-projects")
     list_projects_parser.add_argument("--user-id", type=int)
     list_projects_parser.set_defaults(func=list_projects)
+    
 
     add_task_parser = subparsers.add_parser("add-task")
     add_task_parser.add_argument("--project-id", type=int, required=True)
@@ -216,27 +216,13 @@ def main():
     list_tasks_parser = subparsers.add_parser("list-tasks")
     list_tasks_parser.set_defaults(func=list_tasks)
 
-    complete_task_parser = subparsers.add_parser(
-        "complete-task")
+    complete_task_parser = subparsers.add_parser("complete-task")
+    complete_task_parser.add_argument("--task-id", type=int, required=True)
+    complete_task_parser.set_defaults(func=complete_task)
 
-    complete_task_parser.add_argument(
-        "--task-id",
-        type=int,
-        required=True)
-
-    complete_task_parser.set_defaults(
-        func=complete_task)
-
-    delete_task_parser = subparsers.add_parser(
-        "delete-task")
-
-    delete_task_parser.add_argument(
-        "--task-id",
-        type=int,
-        required=True)
-
-    delete_task_parser.set_defaults(
-        func=delete_task)
+    delete_task_parser = subparsers.add_parser("delete-task")
+    delete_task_parser.add_argument("--task-id", type=int, required=True)
+    delete_task_parser.set_defaults(func=delete_task)
 
     args = parser.parse_args()
 
