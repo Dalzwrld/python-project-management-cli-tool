@@ -167,3 +167,15 @@ def complete_task(args):
     console.print("[red]Task not found[/red]")
 
 
+def delete_task(args):
+
+    data = load_data()
+
+    data["tasks"] = [
+        t for t in data["tasks"]
+        if t["id"] != args.task_id
+    ]
+
+    save_data(data)
+
+    console.print("[yellow]Task deleted[/yellow]")
