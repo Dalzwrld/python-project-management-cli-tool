@@ -6,6 +6,22 @@
             "email": "alex@gmail.com"
         }
     ],
-    "projects": [],
-    "tasks": []
+    "projects": [
+        {
+            "id": 1,
+            "owner_id": 1,
+            "title": "CLI Tool",
+            "description": "Project Manager",
+            "due_date": "2026-12-31"
+        }
+    ],
+    "tasks": [
+        {
+            "id": 1,
+            "project_id": 1,
+            "title": "Implement CLI",
+            "assigned_to": "Alex",
+            "status": "Pending"
+        }
+    ]
 }
