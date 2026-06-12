@@ -148,3 +148,22 @@ def list_tasks(args):
 
     console.print(table)
 
+
+def complete_task(args):
+
+    data = load_data()
+
+    for task in data["tasks"]:
+        if task["id"] == args.task_id:
+            task["status"] = "Completed"
+
+            save_data(data)
+
+            console.print(
+                "[green]Task completed[/green]"
+            )
+            return
+
+    console.print("[red]Task not found[/red]")
+
+
