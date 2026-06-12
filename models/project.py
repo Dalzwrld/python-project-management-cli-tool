@@ -9,10 +9,7 @@ class Project(Task):
             Project.id_counter += 1
         else:
             self.id = project_id
-            Project.id_counter = max(
-                Project.id_counter,
-                project_id + 1
-            )
+            Project.id_counter = max(Project.id_counter, project_id + 1)
         
         super().__init__(title)
         self.description = description

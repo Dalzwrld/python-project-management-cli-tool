@@ -1,24 +1,14 @@
 class Task:
     id_counter = 1
 
-    def __init__(
-        self,
-        project_id,
-        title,
-        assigned_to,
-        status="Pending",
-        task_id=None
-    ):
+    def __init__( self, project_id, title, assigned_to, status="Pending", task_id=None):
 
         if task_id is None:
             self.id = Task.id_counter
             Task.id_counter += 1
         else:
             self.id = task_id
-            Task.id_counter = max(
-                Task.id_counter,
-                task_id + 1
-            )
+            Task.id_counter = max(Task.id_counter, task_id + 1)
 
         self.project_id = project_id
         self.title = title
