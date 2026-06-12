@@ -1,25 +1,236 @@
 import argparse
 
-parse = argparse.ArgumentParser(
-    description="Project Management CLI"
-)
+from rich.console import Console
+from rich.table import Table
 
-subparsers = parse.add_subparsers(dest="command")
+from models.user import User
+from models.project import Project
+from models.task import Task
+
+from utils.storage import load_data, save_data
+
+console = Console
+
+def add_user(args):
+    data = load_data()
+    user = User(args.name, args.email)
+
+    data["users"].append(user.to_dict())
+
+    save_data(data)
+
+    console.print("[green]User added successfully[/green]")
 
 
-add_user = subparsers.add_parser("add_user")
+def list_users(args):
 
-add_user.add_argument("--name", required=True)
-add_user.add_argument("--email", required=True)
+    data = load_data()
+
+    table = Table(title="Users")
+
+    table.add_column("ID")
+    table.add_column("Name")
+    table.add_column("Email")
+
+    for user in data["users"]:
+        table.add_row(
+            str(user["id"]),
+            user["name"],
+            user["email"]
+        )
+
+    console.print(table)
 
 
-add_project = subparsers.add_parser("add_project")
+def add_project(args):
 
-add_project.add_argument("--user", required=True)
-add_project.add_argument("--title", required=True)
+    data = load_data()
+
+    user_exists = any(
+        user["id"] == args.user_id
+        for user in data["users"]
+    )
+
+    if not user_exists:
+        console.print("[red]User not found[/red]")
+        return
+
+    project = Project(
+        args.user_id,
+        args.title,
+        args.description,
+        args.due_date
+    )
+
+    data["projects"].append(project.to_dict())
+
+    save_data(data)
+
+    console.print("[green]Project added[/green]")
 
 
-add_task = subparsers.add_parser("add_task")
+def list_projects(args):
 
-add_task.add_argument("--project", required=True)
-add_task.add_argument("--title", required=True)
+    data = load_data()
+
+    table = Table(title="Projects")
+
+    table.add_column("ID")
+    table.add_column("Owner ID")
+    table.add_column("Title")
+    table.add_column("Due Date")
+
+    projects = data["projects"]
+
+    if args.user_id:
+        projects = [
+            p for p in projects
+            if p["owner_id"] == args.user_id
+        ]
+
+    for project in projects:
+        table.add_row(
+            str(project["id"]),
+            str(project["owner_id"]),
+            project["title"],
+            project["due_date"]
+        )
+
+    console.print(table)
+
+
+def add_task(args):
+
+    data = load_data()
+
+    project_exists = any(
+        p["id"] == args.project_id
+        for p in data["projects"]
+    )
+
+    if not project_exists:
+        console.print("[red]Project not found[/red]")
+        return
+
+    task = Task(
+        args.project_id,
+        args.title,
+        args.assigned_to
+    )
+
+    data["tasks"].append(task.to_dict())
+
+    save_data(data)
+
+    console.print("[green]Task added[/green]")
+
+
+def list_tasks(args):
+
+    data = load_data()
+
+    table = Table(title="Tasks")
+
+    table.add_column("ID")
+    table.add_column("Project")
+    table.add_column("Title")
+    table.add_column("Assigned To")
+    table.add_column("Status")
+
+    for task in data["tasks"]:
+        table.add_row(
+            str(task["id"]),
+            str(task["project_id"]),
+            task["title"],
+            task["assigned_to"],
+            task["status"]
+        )
+
+    console.print(table)
+
+
+def complete_task(args):
+
+    data = load_data()
+
+    for task in data["tasks"]:
+        if task["id"] == args.task_id:
+            task["status"] = "Completed"
+
+            save_data(data)
+
+            console.print(
+                "[green]Task completed[/green]"
+            )
+            return
+
+    console.print("[red]Task not found[/red]")
+
+
+def delete_task(args):
+
+    data = load_data()
+
+    data["tasks"] = [
+        t for t in data["tasks"]
+        if t["id"] != args.task_id
+    ]
+
+    save_data(data)
+
+    console.print("[yellow]Task deleted[/yellow]")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Project Management CLI")
+
+    subparsers = parser.add_subparsers(dest="command")
+
+    add_user_parser = subparsers.add_parser("add-user")
+    add_user_parser.add_argument("--name", required=True)
+    add_user_parser.add_argument("--email", required=True)
+    add_user_parser.set_defaults(func=add_user)
+
+    list_users_parser = subparsers.add_parser("list-users")
+    list_users_parser.set_defaults(func=list_users)
+
+
+    add_project_parser = subparsers.add_parser("add-project")
+    add_project_parser.add_argument("--user-id", type=int, required=True)
+    add_project_parser.add_argument("--title", required=True)
+    add_project_parser.add_argument("--description", required=True)
+    add_project_parser.add_argument("--due-date", required=True)
+    add_project_parser.set_defaults(func=add_project)
+
+    list_projects_parser = subparsers.add_parser("list-projects")
+    list_projects_parser.add_argument("--user-id", type=int)
+    list_projects_parser.set_defaults(func=list_projects)
+    
+
+    add_task_parser = subparsers.add_parser("add-task")
+    add_task_parser.add_argument("--project-id", type=int, required=True)
+    add_task_parser.add_argument("--title", required=True)
+    add_task_parser.add_argument("--assigned-to", required=True)
+    add_task_parser.set_defaults(func=add_task)
+
+    list_tasks_parser = subparsers.add_parser("list-tasks")
+    list_tasks_parser.set_defaults(func=list_tasks)
+
+    complete_task_parser = subparsers.add_parser("complete-task")
+    complete_task_parser.add_argument("--task-id", type=int, required=True)
+    complete_task_parser.set_defaults(func=complete_task)
+
+    delete_task_parser = subparsers.add_parser("delete-task")
+    delete_task_parser.add_argument("--task-id", type=int, required=True)
+    delete_task_parser.set_defaults(func=delete_task)
+
+    args = parser.parse_args()
+
+    if hasattr(args, "func"):
+        args.func(args)
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
