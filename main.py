@@ -99,6 +99,34 @@ def list_projects(args):
     console.print(table)
 
 
+def add_task(args):
+
+    data = load_data()
+
+    project_exists = any(
+        p["id"] == args.project_id
+        for p in data["projects"]
+    )
+
+    if not project_exists:
+        console.print("[red]Project not found[/red]")
+        return
+
+    task = Task(
+        args.project_id,
+        args.title,
+        args.assigned_to
+    )
+
+    data["tasks"].append(task.to_dict())
+
+    save_data(data)
+
+    console.print("[green]Task added[/green]")
+
+
+
+
 parse = argparse.ArgumentParser(
     description="Project Management CLI"
 )
