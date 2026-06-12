@@ -21,6 +21,7 @@ def add_user(args):
 
     console.print("[green]User added successfully[/green]")
 
+
 def list_users(args):
 
     data = load_data()
@@ -39,6 +40,33 @@ def list_users(args):
         )
 
     console.print(table)
+
+
+def add_project(args):
+
+    data = load_data()
+
+    user_exists = any(
+        user["id"] == args.user_id
+        for user in data["users"]
+    )
+
+    if not user_exists:
+        console.print("[red]User not found[/red]")
+        return
+
+    project = Project(
+        args.user_id,
+        args.title,
+        args.description,
+        args.due_date
+    )
+
+    data["projects"].append(project.to_dict())
+
+    save_data(data)
+
+    console.print("[green]Project added[/green]")
 
 parse = argparse.ArgumentParser(
     description="Project Management CLI"
