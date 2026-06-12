@@ -13,9 +13,20 @@ class User(Person):
             User.id_counter += 1
         else:
             self.id = user_id
-            User.id_counter += 1
+            User.id_counter = max(User.id_counter, user_id + 1)
+    
+    @property
+    def email(self):
+        return self._email
+    
+    @email.setter
+    def email(self, value):
+        email_pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
 
-        self.projects = []
+        if not re.match(email_pattern, value):
+            raise ValueError("Invalid email format.")
+        
+        self._email = value
 
     @classmethod
     def from_dict(cls, data):
@@ -31,19 +42,6 @@ class User(Person):
             "name": self.name,
             "email": self.email
         }
-    
-    @property
-    def email(self):
-        return self._email
-    
-    @email.setter
-    def email(self, value):
-        email_pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
-
-        if not re.match(email_pattern, value):
-            raise ValueError("Invalid email format.")
-        
-        self._email = value
 
     def add_project(self, project):
         self.projects.append(project)
