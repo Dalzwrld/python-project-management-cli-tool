@@ -9,6 +9,16 @@
             "id": 2,
             "name": "Mike",
             "email": "mike@gmail.com"
+        },
+        {
+            "id": 3,
+            "name": "Ian",
+            "email": "ian@gmail.com"
+        },
+        {
+            "id": 4,
+            "name": "Jane",
+            "email": "jane@gmail.com"
         }
     ],
     "projects": [
@@ -32,6 +42,13 @@
             "title": "Bookstore",
             "description": "Class and Attribute Implementation",
             "due_date": "2026-12-31"
+        },
+        {
+            "id": 4,
+            "owner_id": 4,
+            "title": "Project Management CLI Tool",
+            "description": "Everything about Python",
+            "due_date": "2026-06-13"
         }
     ],
     "tasks": [
@@ -40,14 +57,7 @@
             "project_id": 1,
             "title": "Implement CLI",
             "assigned_to": "Alex",
-            "status": "Pending"
-        },
-        {
-            "id": 2,
-            "project_id": 1,
-            "title": "Add modules",
-            "assigned_to": "Mike",
-            "status": "Pending"
+            "status": "Completed"
         },
         {
             "id": 3,
@@ -55,6 +65,13 @@
             "title": "Add classes",
             "assigned_to": "Alex",
             "status": "Pending"
+        },
+        {
+            "id": 4,
+            "project_id": 4,
+            "title": "Incorporating argparse",
+            "assigned_to": "Jane",
+            "status": "Completed"
         }
     ]
 }
