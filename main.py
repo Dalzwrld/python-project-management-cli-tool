@@ -13,7 +13,20 @@ console = Console()
 
 def add_user(args):
     data = load_data()
-    user = User(args.name, args.email)
+    
+    if data["users"]:
+        next_id = max(
+            user["id"]
+            for user in data["users"]
+        ) + 1
+    else:
+        next_id = 1
+
+    user = User(
+        args.name,
+        args.email,
+        next_id
+    )
 
     data["users"].append(user.to_dict())
 
@@ -46,20 +59,20 @@ def add_project(args):
 
     data = load_data()
 
-    user_exists = any(
-        user["id"] == args.user_id
-        for user in data["users"]
-    )
-
-    if not user_exists:
-        console.print("[red]User not found[/red]")
-        return
+    if data["projects"]:
+        next_id = max(
+            project["id"]
+            for project in data["projects"]
+        ) + 1
+    else:
+        next_id = 1
 
     project = Project(
         args.user_id,
         args.title,
         args.description,
-        args.due_date
+        args.due_date,
+        next_id
     )
 
     data["projects"].append(project.to_dict())
@@ -103,19 +116,20 @@ def add_task(args):
 
     data = load_data()
 
-    project_exists = any(
-        p["id"] == args.project_id
-        for p in data["projects"]
-    )
-
-    if not project_exists:
-        console.print("[red]Project not found[/red]")
-        return
+    if data["tasks"]:
+        next_id = max(
+            task["id"]
+            for task in data["tasks"]
+        ) + 1
+    else:
+        next_id = 1
 
     task = Task(
         args.project_id,
         args.title,
-        args.assigned_to
+        args.assigned_to,
+        "Pending",
+        next_id
     )
 
     data["tasks"].append(task.to_dict())
