@@ -9,6 +9,12 @@ class User(Person):
         User.id_counter += 1
 
         self.projects = []
+    
+    @property
+    def email(self):
+        return self._email
+    
+    @email.setter
 
     def add_project(self, project):
         self.projects.append(project)
