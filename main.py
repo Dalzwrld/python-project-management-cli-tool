@@ -179,3 +179,149 @@ def delete_task(args):
     save_data(data)
 
     console.print("[yellow]Task deleted[/yellow]")
+
+
+def main():
+
+    parser = argparse.ArgumentParser(
+        description="Project Management CLI"
+    )
+
+    subparsers = parser.add_subparsers(
+        dest="command"
+    )
+
+    add_user_parser = subparsers.add_parser(
+        "add-user"
+    )
+    add_user_parser.add_argument(
+        "--name",
+        required=True
+    )
+    add_user_parser.add_argument(
+        "--email",
+        required=True
+    )
+    add_user_parser.set_defaults(
+        func=add_user
+    )
+
+    list_users_parser = subparsers.add_parser(
+        "list-users"
+    )
+    list_users_parser.set_defaults(
+        func=list_users
+    )
+
+    add_project_parser = subparsers.add_parser(
+        "add-project"
+    )
+
+    add_project_parser.add_argument(
+        "--user-id",
+        type=int,
+        required=True
+    )
+
+    add_project_parser.add_argument(
+        "--title",
+        required=True
+    )
+
+    add_project_parser.add_argument(
+        "--description",
+        required=True
+    )
+
+    add_project_parser.add_argument(
+        "--due-date",
+        required=True
+    )
+
+    add_project_parser.set_defaults(
+        func=add_project
+    )
+
+    list_projects_parser = subparsers.add_parser(
+        "list-projects"
+    )
+
+    list_projects_parser.add_argument(
+        "--user-id",
+        type=int
+    )
+
+    list_projects_parser.set_defaults(
+        func=list_projects
+    )
+
+    add_task_parser = subparsers.add_parser(
+        "add-task"
+    )
+
+    add_task_parser.add_argument(
+        "--project-id",
+        type=int,
+        required=True
+    )
+
+    add_task_parser.add_argument(
+        "--title",
+        required=True
+    )
+
+    add_task_parser.add_argument(
+        "--assigned-to",
+        required=True
+    )
+
+    add_task_parser.set_defaults(
+        func=add_task
+    )
+
+    list_tasks_parser = subparsers.add_parser(
+        "list-tasks"
+    )
+
+    list_tasks_parser.set_defaults(
+        func=list_tasks
+    )
+
+    complete_task_parser = subparsers.add_parser(
+        "complete-task"
+    )
+
+    complete_task_parser.add_argument(
+        "--task-id",
+        type=int,
+        required=True
+    )
+
+    complete_task_parser.set_defaults(
+        func=complete_task
+    )
+
+    delete_task_parser = subparsers.add_parser(
+        "delete-task"
+    )
+
+    delete_task_parser.add_argument(
+        "--task-id",
+        type=int,
+        required=True
+    )
+
+    delete_task_parser.set_defaults(
+        func=delete_task
+    )
+
+    args = parser.parse_args()
+
+    if hasattr(args, "func"):
+        args.func(args)
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
