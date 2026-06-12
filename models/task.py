@@ -13,3 +13,6 @@ class Task:
             "assigned_to": self.assigned_to,
             "status": self.status
         }
+    
+    def __str__(self):
+        return f"{self.title} [{self.status}]"
