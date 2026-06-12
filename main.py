@@ -9,6 +9,18 @@ from models.task import Task
 
 from utils.storage import load_data, save_data
 
+console = Console
+
+def add_user(args):
+    data = load_data()
+    user = User(args.name, args.email)
+
+    data["users"].append(user.to_dict())
+
+    save_data(data)
+
+    console.print("[green]User added successfully[/green]")
+
 parse = argparse.ArgumentParser(
     description="Project Management CLI"
 )
