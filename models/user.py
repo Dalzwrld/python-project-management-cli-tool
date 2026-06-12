@@ -1,5 +1,8 @@
 from person import Person
 
 class User(Person):
+    id_counter = 1
     def __init__(self, name, email):
         super().__init__(name, email)
+
+        self.id = User.id_counter
