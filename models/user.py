@@ -21,6 +21,8 @@ class User(Person):
 
         if not re.match(email_pattern, value):
             raise ValueError("Invalid email format.")
+        
+        self._email = value
 
     def add_project(self, project):
         self.projects.append(project)
