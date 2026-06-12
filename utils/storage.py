@@ -9,10 +9,18 @@ def save_data(data):
 
 def load_data():
     if not os.path.exists(data_file):
-        return {}
+        return {
+            "users": [],
+            "projects": [],
+            "tasks": []
+        }
     
     try:
         with open(data_file, "r") as file:
             return json.load(file)
-    except json.JSONDecodeError:
-        return {}
+    except (json.JSONDecodeError, FileNotFoundError):
+        return {
+            "users": [],
+            "projects": [],
+            "tasks": []
+        }
