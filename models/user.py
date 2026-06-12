@@ -6,3 +6,9 @@ class User(Person):
         super().__init__(name, email)
 
         self.id = User.id_counter
+        User.id_counter += 1
+
+        self.projects = []
+
+    def add_project(self, project):
+        self.projects.append(project)
