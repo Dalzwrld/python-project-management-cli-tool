@@ -5,11 +5,15 @@ class User(Person):
     all_users = []
 
     id_counter = 1
-    def __init__(self, name, email):
+    def __init__(self, name, email, user_id=None):
         super().__init__(name, email)
 
-        self.id = User.id_counter
-        User.id_counter += 1
+        if user_id is None:
+            self.id = User.id_counter
+            User.id_counter += 1
+        else:
+            self.id = user_id
+            User.id_counter += 1
 
         self.projects = []
 
