@@ -1,4 +1,4 @@
-from person import Person
+from .person import Person
 
 class User(Person):
     id_counter = 1
