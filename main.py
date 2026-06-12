@@ -231,10 +231,5 @@ def main():
     else:
         parser.print_help()
 
-console.print("[green]User added successfully[/green]")
-
-print(console)
-print(type(console))
-
 if __name__ == "__main__":
     main()
