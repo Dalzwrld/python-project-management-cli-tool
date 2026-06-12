@@ -9,7 +9,7 @@ from models.task import Task
 
 from utils.storage import load_data, save_data
 
-console = Console
+console = Console()
 
 def add_user(args):
     data = load_data()
@@ -205,7 +205,7 @@ def main():
     list_projects_parser = subparsers.add_parser("list-projects")
     list_projects_parser.add_argument("--user-id", type=int)
     list_projects_parser.set_defaults(func=list_projects)
-    
+
 
     add_task_parser = subparsers.add_parser("add-task")
     add_task_parser.add_argument("--project-id", type=int, required=True)
@@ -231,6 +231,10 @@ def main():
     else:
         parser.print_help()
 
+console.print("[green]User added successfully[/green]")
+
+print(console)
+print(type(console))
 
 if __name__ == "__main__":
     main()
