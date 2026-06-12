@@ -18,8 +18,14 @@ class User(Person):
         self.projects = []
 
     @classmethod
-    def get_all_users(cls):
-        return cls.all_users
+    def from_dict(cls, data):
+        return cls(
+            data["name"],
+            data["email"],
+            data["id"]
+        )
+    
+    def to_dict(self):
     
     @property
     def email(self):
