@@ -1,6 +1,4 @@
-from .task import Task
-
-class Project(Task):
+class Project():
     id_counter = 1
 
     def __init__(self, owner_id, title, description, due_date, project_id=None):
@@ -11,18 +9,18 @@ class Project(Task):
             self.id = project_id
             Project.id_counter = max(Project.id_counter, project_id + 1)
         
-        super().__init__(title)
+        self.owner_id = owner_id
+        self.title = title
         self.description = description
         self.due_date = due_date
-        self.tasks = []
 
     def to_dict(self):
         return {
             "id": self.id,
-            "project_id": self.project_id,
+            "owner_id": self.owner_id,
             "title": self.title,
-            "assigned_to": self.assigned_to,
-            "status": self.status
+            "description": self.description,
+            "due_date": self.due_date
         }
         
     @classmethod
