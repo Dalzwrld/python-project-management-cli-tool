@@ -1,11 +1,12 @@
 from .task import Task
 
-class Project:
+class Project(Task):
     def __init__(self, title, description, due_date):
-        self.title = title
+        super().__init__(title)
         self.description = description
         self.due_date = due_date
         self.tasks = []
+        
 
     def add_task(self, task):
         self.tasks.append(task)
