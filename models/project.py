@@ -18,14 +18,25 @@ class Project(Task):
         self.description = description
         self.due_date = due_date
         self.tasks = []
-        
-    def add_task(self, task):
-        self.tasks.append(task)
 
-    def complete_task(self, task_title):
-        for task in self.tasks:
-            if task.title == task_title:
-                task.mark_complete()
-                return True
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "project_id": self.project_id,
+            "title": self.title,
+            "assigned_to": self.assigned_to,
+            "status": self.status
+        }
         
-        return False
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            data["owner_id"],
+            data["title"],
+            data["description"],
+            data["due_date"],
+            data["id"]
+        )
+
+    def __str__(self):
+        return f"{self.id}: {self.title}"
