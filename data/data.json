@@ -4,6 +4,11 @@
             "id": 1,
             "name": "Alex",
             "email": "alex@gmail.com"
+        },
+        {
+            "id": 2,
+            "name": "Mike",
+            "email": "mike@gmail.com"
         }
     ],
     "projects": [
@@ -13,6 +18,20 @@
             "title": "CLI Tool",
             "description": "Project Manager",
             "due_date": "2026-12-31"
+        },
+        {
+            "id": 2,
+            "owner_id": 1,
+            "title": "Music System",
+            "description": "OOP Implementation",
+            "due_date": "2026-12-31"
+        },
+        {
+            "id": 3,
+            "owner_id": 2,
+            "title": "Bookstore",
+            "description": "Class and Attribute Implementation",
+            "due_date": "2026-12-31"
         }
     ],
     "tasks": [
@@ -20,6 +39,20 @@
             "id": 1,
             "project_id": 1,
             "title": "Implement CLI",
+            "assigned_to": "Alex",
+            "status": "Pending"
+        },
+        {
+            "id": 2,
+            "project_id": 1,
+            "title": "Add modules",
+            "assigned_to": "Mike",
+            "status": "Pending"
+        },
+        {
+            "id": 3,
+            "project_id": 2,
+            "title": "Add classes",
             "assigned_to": "Alex",
             "status": "Pending"
         }
