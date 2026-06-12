@@ -26,6 +26,11 @@ class User(Person):
         )
     
     def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email
+        }
     
     @property
     def email(self):
@@ -44,4 +49,4 @@ class User(Person):
         self.projects.append(project)
 
     def __str__(self):
-        return f"{self.name} ({self.email})"
+        return f"{self.id}: {self.name} ({self.email})"
